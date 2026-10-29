@@ -44,7 +44,7 @@ clock = pygame.time.Clock()
 # Тут опишите все классы игры.
 class GameObject:
     def __init__(self):
-        self.position = (SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
+        self.position = [(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)]
         self.body_color = None
 
     def draw(self):
@@ -64,7 +64,49 @@ class Apple(GameObject):
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
-    
+
+class Snake(GameObject):
+    def __init__(self):
+        """Задает начальные атрибуты данному классу"""
+        super().__init__()
+        self.last = None
+        self.length = 1
+        self.positions = [self.position]
+        self.direction = RIGHT
+        self.next_direction = None
+        self.body_color = SNAKE_COLOR
+
+    def update_direction(self):
+     """Применяет выбранное направление движения"""
+     if self.next_direction:
+         self.direction = self.next_direction
+         self.next_direction = None
+
+    def move(self):
+        head_x, head_y = self.positions[0]
+        direction_x, direction_y = self.direction
+        new_head_x = head_x + direction_x*GRID_SIZE
+        new_head_y = head_y + direction_y*GRID_SIZE
+        (self.positions).insert(0, (new_head_x, new_head_y))
+        if len(self.positions) > self.length:
+            self.last = (self.positions).pop()
+
+    def get_head_position(self):
+        return self.positions[0]
+
+    def reset(self):
+        self.length = 1 
+        self.direction = RIGHT
+        self.positions = [(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)]
+        self.next_direction = None
+        self.last = None
+
+    def draw(self):
+     for position in self.positions[:-1]:
+         rect = (pygame.Rect(position, (GRID_SIZE, GRID_SIZE)))
+         pygame.draw.rect(screen, self.body_color, rect)
+         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+
 def main():
     # Инициализация PyGame:
     pygame.init()
