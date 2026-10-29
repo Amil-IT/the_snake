@@ -111,7 +111,8 @@ def main():
     # Инициализация PyGame:
     pygame.init()
     # Тут нужно создать экземпляры классов.
-    ...
+    snake = Snake()
+    apple = Apple()
 
     # while True:
     #     clock.tick(SPEED)
