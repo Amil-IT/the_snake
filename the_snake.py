@@ -1,4 +1,4 @@
-"""ИМПОРТ МЕТОДОВ choice, randint ИЗ МОДУЛЯ random."""
+"""Игра «Змейка» на Pygame."""
 from random import randint
 
 
@@ -68,9 +68,9 @@ class Apple(GameObject):
 
     def randomize_position(self):
         """ФУНКЦИЯ ДЛЯ СОЗДАНИЯ СЛУЧАЙНЫХ КООРДИНАТ ЯБЛОКА."""
-        self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE, 
+        self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                          randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
-    
+
     def draw(self):
         """ФУНКЦИЯ ДЛЯ РИСОВАНИЯ ЯБЛОКА."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
@@ -115,7 +115,7 @@ class Snake(GameObject):
 
     def reset(self):
         """ФУНКЦИЯ СБРАСЫВАНИЯ ПРОГРЕССА."""
-        self.length = 1 
+        self.length = 1
         self.direction = RIGHT
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.next_direction = None
@@ -160,7 +160,7 @@ def main():
     """ОСНОВНАЯ ФУНКЦИЯ ИГРЫ."""
     # Инициализация PyGame:
     pygame.init()
-    
+
     # Тут нужно создать экземпляры классов.
     snake = Snake()
     apple = Apple()
@@ -179,7 +179,7 @@ def main():
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position()
-        
+
         if snake.get_head_position() in snake.positions[1:]:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
@@ -236,7 +236,7 @@ if __name__ == '__main__':
 #             elif event.key == pygame.K_LEFT and
 #                 game_object.direction != RIGHT:
 #                 game_object.next_direction = LEFT
-#             elif event.key == pygame.K_RIGHT 
+#             elif event.key == pygame.K_RIGHT
 #                 and game_object.direction != LEFT:
 #                 game_object.next_direction = RIGHT
 
