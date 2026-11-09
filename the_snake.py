@@ -32,7 +32,7 @@ SNAKE_COLORS = [(0, 255, 0), (0, 0, 255), (255, 255, 255),
                 (255, 255, 0), (255, 165, 0)]
 
 # Скорость движения змейки:
-SPEED = 20
+SPEED = 10
 
 # Настройка игрового окна:
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
@@ -170,8 +170,11 @@ def main():
     snake = Snake()
     apple = Apple()
 
+    # Создание переменной скорости змейки
+    current_speed = SPEED
+
     while True:
-        clock.tick(SPEED)
+        clock.tick(current_speed)
         # Обработка нажатий клавиш
         handle_keys(snake)
 
@@ -185,12 +188,15 @@ def main():
             snake.update_color()
             snake.length += 1
             apple.randomize_position()
+            if current_speed < 50:
+                current_speed += 1
 
         if snake.get_head_position() in snake.positions[1:]:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             snake.draw()
             apple.draw()
+            current_speed = SPEED
 
         # Рисование змеи
         snake.draw()
