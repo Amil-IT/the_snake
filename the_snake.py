@@ -168,13 +168,14 @@ def main():
 
     # Тут нужно создать экземпляры классов.
     snake = Snake()
-    apples = [Apple()]
+    apples = []
 
     # Создание переменной скорости змейки
     current_speed = SPEED
 
     # Количество съеденных яблок
     apples_eaten = 0
+
     while True:
         clock.tick(current_speed)
         # Обработка нажатий клавиш
@@ -200,19 +201,25 @@ def main():
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             snake.draw()
-            for one_apple in apples:
-                one_apple.draw()
             current_speed = SPEED
             apples_eaten = 0
-            apples = [Apple()]
+            apples = []
 
         # Рисование змеи
         snake.draw()
 
-        # Добавление яблок в список
+        # Добавление и проверка наложения яблок друг на друга
         if len(apples) == 0:
+            occuped_positions = snake.positions.copy()
             for _ in range(1 + apples_eaten // 20):
-                apples.append(Apple())
+                new_apple = Apple()
+
+                while new_apple.position in occuped_positions:
+                    new_apple.randomize_position()
+
+                apples.append(new_apple)
+                occuped_positions.append(new_apple.position)
+
         # Рисование яблоков
         for one_apple in apples:
             one_apple.draw()
